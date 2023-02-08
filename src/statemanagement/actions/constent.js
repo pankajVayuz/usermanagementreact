@@ -1,0 +1,15 @@
+
+export const GET_USER_REQUESTED = " GET_USER_REQUESTED";
+export const GET_USER_LIST = " GET_USER_LIST";
+export const ADD_USER = "ADD_USER";
+export const CREATE_USER_REQUESTED = "CREATE_USER_REQUESTED";
+export const DELETE_USER = "DELETE_USER";
+export const DELETE_USER_REQUESTED = "DELETE_USER_REQUESTED";
+export const SET_LOADING = "SET_LOADING"
+export const GET_USER_BY_ID = "GET_USER_BY_ID"
+export const UPDATE_USER_DATA ="UPDATE_USER_DATA"
+
+
+
+
+
