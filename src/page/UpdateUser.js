@@ -11,31 +11,25 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 const UpdateUser = () => {
-  const [updateUserName, setUpdateUserName] = useState();
-  const [updateUserEmail, setUpdateUserEmail] = useState();
-  const [updatePassword, setUpdatePassword] = useState();
-  const [updatedata, setUpdateData] = useState();
-  const [userStatus, setUserStates] = useState(false);
+  
         
   const suscribe = useSelector((state) => state.users.user);
-  console.log("suscrive...........",suscribe)
   const dispatch = useDispatch();
   const { id } = useParams();
-  const length=suscribe.length - 1
+  // const length = suscribe.length-1
        
-  // useEffect(() => {
+
       
-  // setUpdateUserName(suscribe[length].username);
-  //     setUpdateUserEmail(suscribe[length].email);
-  //     setUpdatePassword(suscribe[length].password);
-  //     setUpdateData(suscribe);
-    
-
-
-  // }, [])
  
   
-  console.log("suscrive user update......",suscribe)
+  const singalUser = suscribe.filter((find)=>find._id===id)
+  
+  
+  const userName = singalUser[0].username;
+  const userEmail = singalUser[0].email;
+  
+  console.log("singal user......",singalUser)
+  
     
 
     
@@ -56,38 +50,42 @@ const UpdateUser = () => {
     setValues
   } = useFormik({
     initialValues: {
-      username: "",
-          email: "",
+      username:userName,
+          email:userEmail,
       password:""
     },
     onSubmit: userUpdate,
     validationSchema: schema,
   });
 
-  useEffect(() => {
-    if (suscribe) {
-      setValues("username" ,suscribe[0].username);
-      setValues("email",suscribe[length].email);
+  // useEffect(() => {
+  //   if (suscribe) {
+      // setValues("username" ,"myname");
+      // setValues("email","myEmail");
       
 
-    }
+  //   }
 
-  },[])
+  // },[])
 
   function userUpdate(event){
     
-    if (updatedata) {
+    if (suscribe) {
       const updateObject = {
-        id: updatedata._id,
-        username: updateUserName,
-        email: updateUserEmail,
-        password: updatePassword,
-        status: updatedata.status,
+        username:values.username,
+        email:values.email,
+        password:values.password,
       };
 
+      const data= {id:id,updateObject:updateObject}
+      dispatch(updateUserData(data))
+      
+      console.log("user object update user..........",updateObject)
     
     }
   };
+
+  userUpdate()
 
   return (
     <>
@@ -107,6 +105,9 @@ const UpdateUser = () => {
             value={values.username}
             
           />
+          {touched.username && errors.username && (
+            <div className="text-red-500">{errors.username}</div>
+          )}
           <Input
             placeholder={"input email"}
             type={"email"}
@@ -118,6 +119,9 @@ const UpdateUser = () => {
             
             
           />
+          {touched.email && errors.email && (
+            <div className="text-red-500">{errors.email}</div>
+          )}
 
           <Input
             placeholder={"password"}
@@ -127,6 +131,11 @@ const UpdateUser = () => {
             onBlur={handleBlur}
             name={"password"}
           />
+          {touched.password && errors.password && (
+            <div className="text-red-500">{errors.password}</div>
+          )}
+
+          <Button>update</Button>
         </form>
       </div>
     </>

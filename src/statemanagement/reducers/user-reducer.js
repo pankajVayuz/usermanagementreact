@@ -11,6 +11,7 @@ import {
 const initialState = {
   users: [],
   user: [],
+  updateuser:[],
   status:false
 }
 
@@ -37,7 +38,7 @@ const userReducer = (state = initialState, action) => {
         }
       case UPDATE_USER_DATA:
         return {
-          ...state,user:[...state.user,action.payload]
+          ...state,updateuser:[...state.updateuser,action.payload]
         }
       
         default:
