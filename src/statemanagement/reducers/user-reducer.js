@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   users: [],
-  user: [],
+  user:{},
   updateuser:[],
   status:false
 }
@@ -34,11 +34,11 @@ const userReducer = (state = initialState, action) => {
         }
       case GET_USER_BY_ID:
         return {
-          ...state, user:[...state.user,action.payload]
+          ...state, user:action.payload
         }
       case UPDATE_USER_DATA:
         return {
-          ...state,updateuser:[...state.updateuser,action.payload]
+          ...state,updateuser:[state.updateuser,action.payload]
         }
       
         default:

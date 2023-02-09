@@ -6,37 +6,39 @@ import { Navigate, useParams } from "react-router-dom";
 import Input from "../comoponent/Input";
 import Button from "../comoponent/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserData } from "../statemanagement/actions/action";
+import { getUserByID, updateUserData } from "../statemanagement/actions/action";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
 const UpdateUser = () => {
-  
-        
-  const suscribe = useSelector((state) => state.users.user);
-  const dispatch = useDispatch();
-  const { id } = useParams();
-  // const length = suscribe.length-1
-       
-
-      
  
   
-  const singalUser = suscribe.filter((find)=>find._id===id)
+  const susscribe = useSelector((state) => state.users.user);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
   
+  // console.log("user data in update user......", susscribe)
+  // let userData = susscribe[1];
+  // console.log("userdata............",userData)
+
+
+
   
-  const userName = singalUser[0].username;
-  const userEmail = singalUser[0].email;
-  
-  console.log("singal user......",singalUser)
-  
-    
+  useEffect(() => {
+    dispatch(getUserByID(id));
 
     
+  }, [id]);
+ 
+ 
+
+ 
+
   const schema = Yup.object().shape({
     username: Yup.string().required(),
-      email: Yup.string().email().required(),
-    password:Yup.string().required().min(8)
+    email: Yup.string().email().required(),
+    password: Yup.string().required().min(8),
   });
 
   const {
@@ -44,48 +46,55 @@ const UpdateUser = () => {
     handleChange,
     handleBlur,
     touched,
-    isValid,
     values,
     errors,
-    setValues
+    setValues,
+    setFieldValue
   } = useFormik({
     initialValues: {
-      username:userName,
-          email:userEmail,
-      password:""
+      username:'',
+      email:'',
+      password: "",
     },
     onSubmit: userUpdate,
     validationSchema: schema,
+    enableReinitialize:true
   });
 
-  // useEffect(() => {
-  //   if (suscribe) {
-      // setValues("username" ,"myname");
-      // setValues("email","myEmail");
-      
 
-  //   }
-
-  // },[])
-
-  function userUpdate(event){
-    
-    if (suscribe) {
+ //form submit main function
+  function userUpdate(event) {
+    if (susscribe) {
       const updateObject = {
-        username:values.username,
-        email:values.email,
-        password:values.password,
+        username: values.username,
+        email: values.email,
+        password: values.password,
       };
 
-      const data= {id:id,updateObject:updateObject}
-      dispatch(updateUserData(data))
-      
-      console.log("user object update user..........",updateObject)
-    
-    }
-  };
 
-  userUpdate()
+      console.log("updated value.......",updateObject)
+
+      const data = { id: id, updateObject: updateObject };
+      dispatch(updateUserData(data));//dispatch update user action.... and call usee api function
+
+
+    }
+  }
+
+  useEffect(() => {
+    
+    if (susscribe) {
+      console.log("suscribe in use effect.....", susscribe);
+      setFieldValue("username", susscribe?.username);
+      setFieldValue("email", susscribe?.email);
+
+  }
+
+    
+  }, [id,susscribe]);  
+  
+
+ 
 
   return (
     <>
@@ -101,9 +110,8 @@ const UpdateUser = () => {
             required={true}
             onChange={handleChange}
             onBlur={handleBlur}
-            name={"username"}
+            name="username"
             value={values.username}
-            
           />
           {touched.username && errors.username && (
             <div className="text-red-500">{errors.username}</div>
@@ -116,8 +124,6 @@ const UpdateUser = () => {
             onBlur={handleBlur}
             name={"email"}
             value={values.email}
-            
-            
           />
           {touched.email && errors.email && (
             <div className="text-red-500">{errors.email}</div>

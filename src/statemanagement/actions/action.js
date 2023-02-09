@@ -51,7 +51,7 @@ export const getUserByID = (id) => {
       .get(`http://localhost:9000/admin/v1/users/${id}`)
       .then((response) => {
         dispatch({ type: GET_USER_BY_ID, payload: response.data });
-        console.log("id res............", response.data);
+        console.log("action getuserbyid res............", response.data);
       })
 
       .catch((error) => {

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import Button from "../comoponent/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUser, getUserByID } from "../statemanagement/actions/action";
+import { getAllUser } from "../statemanagement/actions/action";
 import { Link } from "react-router-dom";
 
 const UserList = () => {
-  // const [id,setId]=useState()
 
-  const suscribe = useSelector((state) => state.users);
+//get users list for store.
+  const susscribe = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // action dispatch for get user data list
     dispatch(getAllUser);
   }, []);
 
@@ -28,8 +29,8 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody className="mt-12">
-            {suscribe.users &&
-              suscribe.users.map((u) => (
+            {susscribe.users &&
+              susscribe.users.map((u) => (
                 <>
                   <tr>
                     <td className="text-center text-red-500">{u.username}</td>
@@ -49,7 +50,7 @@ const UserList = () => {
                       <Link to={`/updateUser/${u._id}`}>
                         <Button
                           className="text-center"
-                          onClick={() => dispatch(getUserByID(u._id))}
+                         
                         >
                           Edit
                         </Button>
