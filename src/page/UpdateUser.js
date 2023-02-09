@@ -11,29 +11,13 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 const UpdateUser = () => {
- 
-  
   const susscribe = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  
-  // console.log("user data in update user......", susscribe)
-  // let userData = susscribe[1];
-  // console.log("userdata............",userData)
-
-
-
-  
   useEffect(() => {
     dispatch(getUserByID(id));
-
-    
   }, [id]);
- 
- 
-
- 
 
   const schema = Yup.object().shape({
     username: Yup.string().required(),
@@ -48,21 +32,19 @@ const UpdateUser = () => {
     touched,
     values,
     errors,
-    setValues,
-    setFieldValue
+    setFieldValue,
   } = useFormik({
     initialValues: {
-      username:'',
-      email:'',
+      username: "",
+      email: "",
       password: "",
     },
     onSubmit: userUpdate,
     validationSchema: schema,
-    enableReinitialize:true
+    enableReinitialize: true,
   });
 
-
- //form submit main function
+  //form submit main function
   function userUpdate(event) {
     if (susscribe) {
       const updateObject = {
@@ -71,30 +53,18 @@ const UpdateUser = () => {
         password: values.password,
       };
 
-
-      console.log("updated value.......",updateObject)
-
       const data = { id: id, updateObject: updateObject };
-      dispatch(updateUserData(data));//dispatch update user action.... and call usee api function
-
-
+      dispatch(updateUserData(data)); //dispatch update user action.... and call usee api function
     }
   }
 
   useEffect(() => {
-    
     if (susscribe) {
       console.log("suscribe in use effect.....", susscribe);
       setFieldValue("username", susscribe?.username);
       setFieldValue("email", susscribe?.email);
-
-  }
-
-    
-  }, [id,susscribe]);  
-  
-
- 
+    }
+  }, [id, susscribe]);
 
   return (
     <>
