@@ -58,7 +58,7 @@ export const getUserByID = (id) => {
 };
 
 export const updateUserData = ({ id, updateObject }) => {
-  console.log("action  page......id  update data", id, updateObject);
+
   return (dispatch) => {
     axios
       .patch(`https://usermangement.onrender.com/admin/v1/users/update/${id}`, updateObject)

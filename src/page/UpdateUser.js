@@ -1,8 +1,6 @@
 import React from "react";
-
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Input from "../comoponent/Input";
 import Button from "../comoponent/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -60,7 +58,6 @@ const UpdateUser = () => {
 
   useEffect(() => {
     if (susscribe) {
-      console.log("suscribe in use effect.....", susscribe);
       setFieldValue("username", susscribe?.username);
       setFieldValue("email", susscribe?.email);
     }

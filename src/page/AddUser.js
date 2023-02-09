@@ -45,7 +45,6 @@ const AddUser = () => {
   function callUserAddApi() {
     /**dispatch addUser action */
     dispatch(addUser(userDataObject));
-
   }
 
   return (
